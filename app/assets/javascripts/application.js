@@ -14,3 +14,18 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+ 
+$(document).ready(function() {
+
+
+  $('#submit-button').click(function(){
+    $.ajax({
+      url: "test.html",
+      context: document.body
+      }).done(function() {
+        $( this ).addClass( "done" );
+      });
+    alert("I am an alert box!");
+    event.preventDefault(); 
+  });
+});
