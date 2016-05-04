@@ -1,0 +1,5 @@
+%h3= link_to "New Invitations", validation_path 
+
+- @invitations.each do |invitation|
+  = invitation.email
+  

@@ -1,2 +1,20 @@
-= form_tag do 
-  = submit_tag("Button", id: 'submit-button')
+= form_for @invitation do |f| 
+  - if @invitation.errors.any?
+    #errors
+      %p
+        = @invitation.errors.count
+        Prevented this recipe froms saving
+      %ul
+        - @invitation.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.label :email
+  = f.text_field :email
+
+  = f.label :message
+  = f.text_field :message
+  
+  = f.submit 
+
+
+  

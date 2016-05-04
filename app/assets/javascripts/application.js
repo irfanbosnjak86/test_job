@@ -20,7 +20,7 @@ $(document).ready(function() {
 
   $('#submit-button').click(function(){
     $.ajax({
-      url: "test.html",
+      url: '/test',
       context: document.body
       }).done(function() {
         $( this ).addClass( "done" );
