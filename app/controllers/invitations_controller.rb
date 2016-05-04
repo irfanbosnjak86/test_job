@@ -10,24 +10,28 @@ class InvitationsController < ApplicationController
 
   def create
     @invitation = Invitation.new(invitation_params)
+    @valid_array ||= []
+    @novalid_array ||= []
+    
     invitation_params[:email].split(', ').each do |email|
       if valid_email?(email)
-        @valid_array = email
-        #Invitation.create(email: email, :message => invitation_params[:message])
+        @valid_array << email
       else
-        #flash[:error] = 'Bad email!'
-        @novalid_array = email
+        @novalid_array << email
       end
     end
 
-    if @novalid_array.nil?
-      invitation_params[:email].split(', ').each do |email|
-        Invitation.create(email: email, :message => invitation_params[:message])
+    respond_to do |format|
+      if @novalid_array.empty?
+          @valid_array.each do |email|
+            Invitation.create(email: email, :message => invitation_params[:message])
+          end
+        redirect_to root_path
+      else 
+        flash[:error] = @novalid_array
+        format.html { render :validation, notice: 'Something went wrong!' }
       end
-    else 
-      flash[:error] = 'Bad email!'   
-    end
-    redirect_to root_path
+    end 
   end
 
   def testingajax
