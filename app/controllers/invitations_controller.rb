@@ -11,9 +11,22 @@ class InvitationsController < ApplicationController
   def create
     @invitation = Invitation.new(invitation_params)
     invitation_params[:email].split(', ').each do |email|
-      Invitation.create(email: email, :message => invitation_params[:message])
+      if valid_email?(email)
+        @valid_array = email
+        #Invitation.create(email: email, :message => invitation_params[:message])
+      else
+        #flash[:error] = 'Bad email!'
+        @novalid_array = email
+      end
     end
 
+    if @novalid_array.nil?
+      invitation_params[:email].split(', ').each do |email|
+        Invitation.create(email: email, :message => invitation_params[:message])
+      end
+    else 
+      flash[:error] = 'Bad email!'   
+    end
     redirect_to root_path
   end
 
