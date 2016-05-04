@@ -26,7 +26,7 @@ class InvitationsController < ApplicationController
           @valid_array.each do |email|
             Invitation.create(email: email, :message => invitation_params[:message])
           end
-        redirect_to root_path
+        format.html { redirect_to root_path, notice: 'Invitation was successfully created.' }
       else 
         flash[:error] = @novalid_array
         format.html { render :validation, notice: 'Something went wrong!' }
