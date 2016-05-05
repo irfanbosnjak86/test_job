@@ -4,12 +4,11 @@ class InvitationsController < ApplicationController
     @invitations = Invitation.all
   end
 
-  def validation
+  def new
     @invitation = Invitation.new 
   end
 
   def create
-    @invitation = Invitation.new(invitation_params)
     @valid_array ||= []
     @novalid_array ||= []
 
@@ -26,7 +25,7 @@ class InvitationsController < ApplicationController
           @valid_array.each do |email|
             Invitation.create(email: email, :message => invitation_params[:message])
           end
-        format.html { redirect_to root_path, notice: 'Invitation was successfully created.' }
+        format.html { redirect_to invitations_path, notice: 'Invitation was successfully created.' }
         format.js {render 'valid'}
         format.json { render :index, status: :created, location: :index }
       else 
@@ -35,9 +34,6 @@ class InvitationsController < ApplicationController
         format.json { render json: @novalid_array.errors, status: :unprocessable_entity }
       end
     end 
-  end
-
-  def testingajax
   end
 
   private 

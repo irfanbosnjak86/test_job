@@ -1,5 +1,14 @@
-%h3= link_to "New Invitations", validation_path 
+%h3= link_to "New Invitations", new_invitation_path 
 
-- @invitations.each do |invitation|
-  = invitation.email
-  
+%table
+  %tr(id = "firstrow")
+    %th
+      Emails
+    %th 
+      Messages
+  - @invitations.each do |invitation|
+    %tr
+      %td
+        = invitation.email
+      %td 
+        = invitation.message
