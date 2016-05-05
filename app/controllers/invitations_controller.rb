@@ -12,7 +12,7 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new(invitation_params)
     @valid_array ||= []
     @novalid_array ||= []
-    
+
     invitation_params[:email].split(', ').each do |email|
       if valid_email?(email)
         @valid_array << email
@@ -27,9 +27,12 @@ class InvitationsController < ApplicationController
             Invitation.create(email: email, :message => invitation_params[:message])
           end
         format.html { redirect_to root_path, notice: 'Invitation was successfully created.' }
+        format.js {render 'valid'}
+        format.json { render :index, status: :created, location: :index }
       else 
-        flash[:error] = @novalid_array
         format.html { render :validation, notice: 'Something went wrong!' }
+        format.js {}
+        format.json { render json: @novalid_array.errors, status: :unprocessable_entity }
       end
     end 
   end
